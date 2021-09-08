@@ -21,14 +21,24 @@ func ProcessLine(line, old, new string) (found bool, res string, occ int) {
 	return found, res, occ
 }
 
-func FindAndReplace(srcFile, old, new string) (occ int, lines []int, err error) {
+func FindAndReplace(srcFile, old, new, dst string) (occ int, lines []int, err error) {
 	file, err := os.Open(srcFile)
 	if err != nil {
 		return occ, lines, err
 	}
 	defer file.Close()
-	scanner := bufio.NewScanner(file)
 
+	dstFile, err := os.Create(dst)
+	if err != nil {
+		return occ, lines, err
+	}
+	defer dstFile.Close()
+	scanner := bufio.NewScanner(file)
+	writer := bufio.NewWriter(dstFile)
+	defer writer.Flush()
+
+	old += " "
+	new += " "
 	lineIdx := 1
 	for scanner.Scan() {
 		found, res, o := ProcessLine(scanner.Text(), old, new)
@@ -36,7 +46,7 @@ func FindAndReplace(srcFile, old, new string) (occ int, lines []int, err error) 
 			occ += o
 			lines = append(lines, lineIdx)
 		}
-		fmt.Println(res)
+		fmt.Fprintf(writer, res)
 		lineIdx++
 	}
 	return occ, lines, nil
@@ -45,7 +55,7 @@ func FindAndReplace(srcFile, old, new string) (occ int, lines []int, err error) 
 func main() {
 	old := "Go"
 	new := "Python"
-	occ, lines, err := FindAndReplace("wikigo.txt", old, new)
+	occ, lines, err := FindAndReplace("wikigo.txt", old, new, "output.txt")
 	if err != nil {
 		fmt.Printf("Error while executing find replace: %v\n", err)
 	}

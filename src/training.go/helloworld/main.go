@@ -2,77 +2,61 @@ package main
 
 import (
 	"fmt"
+	"strings"
 )
 
-func UpdateVal(val string) {
-	val = "myValue"
+type Post struct {
+	Title     string
+	Text      string
+	published bool
 }
 
-func UpdatePointer(ptr *string) {
-	*ptr = "myValue"
+func (p Post) Headline() string {
+	return fmt.Sprintf("%v - %v", p.Title, p.Text[:10])
+}
+
+func (p Post) HeadlineNoRef() string {
+	p.Title = "Ruby"
+	return fmt.Sprintf("%v - %v", p.Title, p.Text[:10])
+}
+
+func (p *Post) Published() bool {
+	return p.published
+}
+
+func (p *Post) Publish() {
+	p.published = true
+}
+
+func (p *Post) Unpublish() {
+	p.published = false
+}
+
+func UpperTitle(p *Post) {
+	p.Title = strings.ToUpper(p.Title)
 }
 
 func main() {
-	i := 1
-	var p *int = &i
+	p := Post{
+		Title: "Go release",
+		Text:  "lorem100lorem100lorem100lorem100lorem100lorem100lorem100lorem100",
+	}
+	fmt.Println(p.Headline())
+	fmt.Println(p.Published())
+	p.Publish()
+	fmt.Println(p.Published())
+	p.Unpublish()
+	fmt.Println(p.Published())
+	UpperTitle(&p)
+	fmt.Println(p.Headline())
 
-	fmt.Printf("i=%v\n", i)
-	fmt.Printf("p=%v\n", p)
-	fmt.Printf("*p=%v\n", *p)
-	fmt.Printf("p=%v\n", p)
+	pythonPost := &Post{
+		Title: "Python",
+		Text:  "python python python python python python python python python python python python python python python ",
+	}
 
-	fmt.Println("-----------------")
-
-	s := "Bob"
-	sPtr := &s
-	s2 := *sPtr
-
-	fmt.Printf("s=%v\n", s)
-	fmt.Printf("sPrt=%v\n", sPtr)
-	fmt.Printf("*sPrt=%v\n", *sPtr)
-	fmt.Printf("s2=%v\n", s2)
-
-	fmt.Println("-----------------")
-
-	s = "Alice"
-
-	fmt.Println("Change the initial variable from Bob to Alice")
-	fmt.Printf("s=%v\n", s)
-	fmt.Printf("sPrt=%v\n", sPtr)
-	fmt.Printf("*sPrt=%v\n", *sPtr)
-	fmt.Printf("s2=%v\n", s2)
-
-	fmt.Println("-----------------")
-
-	*sPtr = "Hugo"
-
-	fmt.Println("Dereference sPrt and update it with Hugo")
-	fmt.Printf("s=%v\n", s)
-	fmt.Printf("sPrt=%v\n", sPtr)
-	fmt.Printf("*sPrt=%v\n", *sPtr)
-	fmt.Printf("s2=%v\n", s2)
-
-	fmt.Println("-----------------")
-
-	UpdateVal(s)
-
-	fmt.Println("UpdateVal => trying to change to myValue")
-	fmt.Printf("s=%v\n", s)
-	fmt.Printf("sPrt=%v\n", sPtr)
-	fmt.Printf("*sPrt=%v\n", *sPtr)
-	fmt.Printf("s2=%v\n", s2)
-
-	fmt.Println("-----------------")
-
-	// UpdatePointer(&s)
-	UpdatePointer(sPtr)
-
-	fmt.Println("UpdatePointer => trying to change to myValue")
-	fmt.Printf("s=%v\n", s)
-	fmt.Printf("sPrt=%v\n", sPtr)
-	fmt.Printf("*sPrt=%v\n", *sPtr)
-	fmt.Printf("s2=%v\n", s2)
-
-	fmt.Println("-----------------")
+	UpperTitle(pythonPost)
+	fmt.Println(pythonPost.HeadlineNoRef())
+	fmt.Println(pythonPost)
 
 }

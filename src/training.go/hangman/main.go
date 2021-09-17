@@ -15,7 +15,7 @@ func main() {
 	for {
 		hangman.Draw(g, guess)
 		switch g.State {
-		case "win", "lost":
+		case "won", "lost":
 			os.Exit(0)
 		}
 		l, err := hangman.ReadGuess()
@@ -24,6 +24,7 @@ func main() {
 			os.Exit(1)
 		}
 		guess = l
+		g.MakeAGuess(guess)
 	}
 
 }

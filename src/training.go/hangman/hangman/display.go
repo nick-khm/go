@@ -4,18 +4,19 @@ import "fmt"
 
 func DrawWelcome() {
 	fmt.Println(`
-	 /$$   /$$                                                                
-	| $$  | $$                                                                
-	| $$  | $$  /$$$$$$  /$$$$$$$   /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$$$$$$ 
-	| $$$$$$$$ |____  $$| $$__  $$ /$$__  $$| $$_  $$_  $$ |____  $$| $$__  $$
-	| $$__  $$  /$$$$$$$| $$  \ $$| $$  \ $$| $$ \ $$ \ $$  /$$$$$$$| $$  \ $$
-	| $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$ | $$ | $$ /$$__  $$| $$  | $$
-	| $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$ | $$ | $$|  $$$$$$$| $$  | $$
-	|__/  |__/ \_______/|__/  |__/ \____  $$|__/ |__/ |__/ \_______/|__/  |__/
-								   /$$  \ $$                                  
-								  |  $$$$$$/                                  
-								   \______/                                   
-	`)
+
+/$$   /$$                                                                
+| $$  | $$                                                                
+| $$  | $$  /$$$$$$  /$$$$$$$   /$$$$$$  /$$$$$$/$$$$   /$$$$$$  /$$$$$$$ 
+| $$$$$$$$ |____  $$| $$__  $$ /$$__  $$| $$_  $$_  $$ |____  $$| $$__  $$
+| $$__  $$  /$$$$$$$| $$  \ $$| $$  \ $$| $$ \ $$ \ $$  /$$$$$$$| $$  \ $$
+| $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$ | $$ | $$ /$$__  $$| $$  | $$
+| $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$ | $$ | $$|  $$$$$$$| $$  | $$
+|__/  |__/ \_______/|__/  |__/ \____  $$|__/ |__/ |__/ \_______/|__/  |__/
+                               /$$  \ $$                                  
+                              |  $$$$$$/                                  
+                               \______/                                   
+ `)
 }
 
 func Draw(g *Game, guess string) {
@@ -32,15 +33,15 @@ func drawState(g *Game, guess string) {
 
 	switch g.State {
 	case "goodGuess":
-		fmt.Print("Good guess!")
+		fmt.Println("Good guess!")
 	case "alreadyGuessed":
-		fmt.Printf("Letter %v was already user", guess)
+		fmt.Printf("Letter %v was already used\n", guess)
 	case "badGuess":
-		fmt.Printf("Bad guess, '%v' is not in the word", guess)
+		fmt.Printf("Bad guess, '%v' is not in the word\n", guess)
 	case "lost":
 		fmt.Print("You lost :( The word was: ")
 		drawLetters(g.Letters)
-	case "win":
+	case "won":
 		fmt.Print("You won! The word was: ")
 		drawLetters(g.Letters)
 	}
@@ -160,4 +161,5 @@ func drawTurns(l int) {
 			`
 	}
 	fmt.Println(draw)
+	fmt.Printf("Turns left: %v\n", l)
 }

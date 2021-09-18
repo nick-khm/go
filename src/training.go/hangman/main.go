@@ -5,10 +5,17 @@ import (
 	"os"
 
 	"helloworld.com/greetings/src/training.go/hangman/hangman"
+	"helloworld.com/greetings/src/training.go/hangman/hangman/dictionary"
 )
 
 func main() {
-	g := hangman.New(8, "Golang")
+	err := dictionary.Load("words.txt")
+	if err != nil {
+		fmt.Printf("Could not load the dictionary: %v\n", err)
+		os.Exit(1)
+	}
+
+	g := hangman.New(8, dictionary.PickWord())
 
 	hangman.DrawWelcome()
 	guess := ""

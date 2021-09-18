@@ -16,7 +16,7 @@ func New(turns int, word string) *Game {
 	letters := strings.Split(strings.ToUpper(word), "")
 	found := make([]string, len(letters))
 	for i := 0; i < len(letters); i++ {
-		found[i] = "_"
+		found[i] = " _ "
 	}
 	return &Game{
 		State:        "",
@@ -40,8 +40,9 @@ func (g *Game) MakeAGuess(guess string) {
 			g.State = "won"
 		}
 	} else {
-		g.TurnsLeft -= 1
+
 		g.State = "badGuess"
+		g.LoseTurn(guess)
 		if g.TurnsLeft == 0 {
 			g.State = "lost"
 		}
@@ -55,6 +56,11 @@ func (g *Game) RevealLetter(guess string) {
 			g.FoundLetters[i] = guess
 		}
 	}
+}
+
+func (g *Game) LoseTurn(guess string) {
+	g.TurnsLeft--
+	g.UsedLetters = append(g.UsedLetters, guess)
 }
 
 func hasWon(letters []string, foundLetters []string) bool {

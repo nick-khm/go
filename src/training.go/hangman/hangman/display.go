@@ -49,7 +49,7 @@ func drawState(g *Game, guess string) {
 
 func drawLetters(l []string) {
 	for _, c := range l {
-		fmt.Printf("%v", c)
+		fmt.Printf(" %v ", c)
 	}
 	fmt.Println()
 }

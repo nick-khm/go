@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"os"
 
+	"helloworld.com/greetings/src/training.go/hangman/dictionary"
 	"helloworld.com/greetings/src/training.go/hangman/hangman"
-	"helloworld.com/greetings/src/training.go/hangman/hangman/dictionary"
 )
 
 func main() {
@@ -15,7 +15,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	g := hangman.New(8, dictionary.PickWord())
+	g, err := hangman.New(8, dictionary.PickWord())
+	if err != nil {
+		fmt.Printf("Error while a game init")
+	}
 
 	hangman.DrawWelcome()
 	guess := ""

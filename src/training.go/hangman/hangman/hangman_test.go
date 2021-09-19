@@ -40,3 +40,37 @@ func validState(t *testing.T, expectedState, actualState string) bool {
 	}
 	return true
 }
+
+func TestGameAlreadyGuessed(t *testing.T) {
+	g, _ := New(3, "alice")
+	g.MakeAGuess("a")
+	validState(t, "goodGuess", g.State)
+	g.MakeAGuess("l")
+	validState(t, "goodGuess", g.State)
+	g.MakeAGuess("a")
+	validState(t, "alreadyGuessed", g.State)
+}
+
+func TestBadGuess(t *testing.T) {
+	g, _ := New(3, "bob")
+	g.MakeAGuess("a")
+	validState(t, "badGuess", g.State)
+}
+
+func TestGameWon(t *testing.T) {
+	g, _ := New(3, "bob")
+	g.MakeAGuess("b")
+	g.MakeAGuess("o")
+	g.MakeAGuess("b")
+	validState(t, "won", g.State)
+}
+
+func TestGameLost(t *testing.T) {
+	g, _ := New(3, "bob")
+	g.MakeAGuess("a")
+	g.MakeAGuess("c")
+	g.MakeAGuess("d")
+	g.MakeAGuess("b")
+	g.MakeAGuess("o")
+	validState(t, "lost", g.State)
+}

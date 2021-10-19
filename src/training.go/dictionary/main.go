@@ -12,11 +12,13 @@ func main() {
 	handleErr(err)
 	defer d.Close()
 
-	d.Add("java", "dinosour like language")
+	/*d.Add("java", "dinosour like language")
 	words, entries, _ := d.List()
 	for _, word := range words {
 		fmt.Println(entries[word])
-	}
+	}*/
+
+	d.Remove("Java")
 }
 
 func handleErr(err error) {

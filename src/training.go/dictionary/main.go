@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
@@ -8,17 +9,30 @@ import (
 )
 
 func main() {
+	action := flag.String("action", "list", "Action to perform on the dictionary")
+
 	d, err := dictionary.New("./badger")
 	handleErr(err)
 	defer d.Close()
 
-	/*d.Add("java", "dinosour like language")
-	words, entries, _ := d.List()
+	flag.Parse()
+
+	switch *action {
+	case "list":
+		actionList(d)
+
+	default:
+		fmt.Printf("Unknown action %v\n", *action)
+	}
+}
+
+func actionList(d *dictionary.Dictionary) {
+	words, entries, err := d.List()
+	handleErr(err)
+	fmt.Println("Dictionary content")
 	for _, word := range words {
 		fmt.Println(entries[word])
-	}*/
-
-	d.Remove("Java")
+	}
 }
 
 func handleErr(err error) {

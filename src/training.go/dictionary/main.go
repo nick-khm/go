@@ -24,6 +24,8 @@ func main() {
 		actionAdd(d, flag.Args())
 	case "define":
 		actionDefine(d, flag.Args())
+	case "remove":
+		actionRemove(d, flag.Args())
 	default:
 		fmt.Printf("Unknown action %v\n", *action)
 	}
@@ -44,6 +46,12 @@ func actionAdd(d *dictionary.Dictionary, args []string) {
 	err := d.Add(word, definition)
 	handleErr(err)
 	fmt.Printf("'%v' added to the dictionary\n", word)
+}
+
+func actionRemove(d *dictionary.Dictionary, args []string) {
+	key := args[0]
+	handleErr(d.Remove(key))
+	fmt.Printf("'%v' was removed from the dictionary\n", key)
 }
 
 func actionDefine(d *dictionary.Dictionary, args []string) {

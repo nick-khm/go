@@ -22,7 +22,8 @@ func main() {
 		actionList(d)
 	case "add":
 		actionAdd(d, flag.Args())
-
+	case "define":
+		actionDefine(d, flag.Args())
 	default:
 		fmt.Printf("Unknown action %v\n", *action)
 	}
@@ -43,6 +44,12 @@ func actionAdd(d *dictionary.Dictionary, args []string) {
 	err := d.Add(word, definition)
 	handleErr(err)
 	fmt.Printf("'%v' added to the dictionary\n", word)
+}
+
+func actionDefine(d *dictionary.Dictionary, args []string) {
+	entry, err := d.Get(args[0])
+	handleErr(err)
+	fmt.Println(entry)
 }
 
 func handleErr(err error) {

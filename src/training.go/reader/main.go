@@ -2,8 +2,9 @@ package main
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 )
 
 func main() {
@@ -15,6 +16,12 @@ func main() {
 
 	defer resp.Body.Close()
 
-	body, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(string(body))
+	// body, _ := ioutil.ReadAll(resp.Body)
+	// fmt.Println(string(body))
+
+	f, _ := os.Create("golang.html")
+	defer f.Close()
+
+	// call resp.body one single time in the script, otherwise it will be empty
+	io.Copy(f, resp.Body)
 }

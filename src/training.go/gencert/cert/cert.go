@@ -2,6 +2,7 @@ package cert
 
 import (
 	"fmt"
+	"strings"
 	"time"
 )
 
@@ -22,18 +23,40 @@ type Saver interface {
 }
 
 func New(course, name, date string) (*Cert, error) {
-	c := course
+	c, err := ValidateCourse(course)
+	if err != nil {
+		return nil, err
+	}
 	n := name
 	d := date
 
-	cert := &Cert {
-		Course: c,
-		Name: n,
-		LabelTitle: fmt.Sprintf("%v Certificate - %v", c, n),
-		LabelCompletion: "Certificate of Completion",
-		LabelPressented: "This Certificate is Presented To",
+	cert := &Cert{
+		Course:             c,
+		Name:               n,
+		LabelTitle:         fmt.Sprintf("%v Certificate - %v", c, n),
+		LabelCompletion:    "Certificate of Completion",
+		LabelPressented:    "This Certificate is Presented To",
 		LabelParticipation: fmt.Sprintf("For participation in the %v", c),
-		LabelDate: fmt.Sprintf("Date: %v", d)
+		LabelDate:          fmt.Sprintf("Date: %v", d),
 	}
 	return cert, nil
+}
+
+func ValidateCourse(course string) (string, error) {
+	c, err := validateStr(course)
+	if err != nil {
+		return "", err
+	}
+	if !strings.HasSuffix(c, " course") {
+		c = c + " course"
+	}
+	return strings.ToTitle(c), nil
+}
+
+func validateStr(str string) (string, error) {
+	str = strings.TrimSpace(str)
+	if len(str) == 0 {
+		return str, fmt.Errorf("Course can't be empty")
+	}
+	return str, nil
 }

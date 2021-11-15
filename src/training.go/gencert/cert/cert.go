@@ -6,6 +6,8 @@ import (
 	"time"
 )
 
+var MaxLenCourse = 20
+
 type Cert struct {
 	Course string
 	Name   string
@@ -43,7 +45,7 @@ func New(course, name, date string) (*Cert, error) {
 }
 
 func ValidateCourse(course string) (string, error) {
-	c, err := validateStr(course)
+	c, err := validateStr(course, MaxLenCourse)
 	if err != nil {
 		return "", err
 	}
@@ -53,10 +55,12 @@ func ValidateCourse(course string) (string, error) {
 	return strings.ToTitle(c), nil
 }
 
-func validateStr(str string) (string, error) {
+func validateStr(str string, maxLen int) (string, error) {
 	str = strings.TrimSpace(str)
-	if len(str) == 0 {
+	if len(str) <= 0 {
 		return str, fmt.Errorf("Course can't be empty")
+	} else if len(str) >= maxLen {
+		return str, fmt.Errorf("Invalid string, got len=%d", len(str))
 	}
 	return str, nil
 }

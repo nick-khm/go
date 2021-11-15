@@ -22,3 +22,11 @@ func TestCourseEmptyValue(t *testing.T) {
 		t.Errorf("Error should be returned on an empty course")
 	}
 }
+
+func TestCourseTooLong(t *testing.T) {
+	course := "azesjfozijfozidfijzdjfzjfizjfizjfizjdfizjfiglgggloremazesjfozijfozidfijzdjfzjfizjfizjfizjdfizjfiglgggloremazesjfozijfozidfijzdjfzjfizjfizjfizjdfizjfiglgggloremazesjfozijfozidfijzdjfzjfizjfizjfizjdfizjfiglgggloremazesjfozijfozidfijzdjfzjfizjfizjfizjdfizjfiglgggloremazesjfozijfozidfijzdjfzjfizjfizjfizjdfizjfiglggglorem"
+	_, err := New(course, "Bob", "2021-11-14")
+	if err == nil {
+		t.Errorf("Error should be returned on a too long course (course=%s)", course)
+	}
+}

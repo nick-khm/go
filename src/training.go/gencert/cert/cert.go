@@ -7,6 +7,7 @@ import (
 )
 
 var MaxLenCourse = 20
+var MaxLenName = 10
 
 type Cert struct {
 	Course string
@@ -26,10 +27,10 @@ type Saver interface {
 
 func New(course, name, date string) (*Cert, error) {
 	c, err := ValidateCourse(course)
+	n, err := ValidateName(name)
 	if err != nil {
 		return nil, err
 	}
-	n := name
 	d := date
 
 	cert := &Cert{
@@ -63,4 +64,12 @@ func validateStr(str string, maxLen int) (string, error) {
 		return str, fmt.Errorf("Invalid string, got len=%d", len(str))
 	}
 	return str, nil
+}
+
+func ValidateName(name string) (string, error) {
+	n, err := validateStr(name, MaxLenName)
+	if err != nil {
+		return "", err
+	}
+	return strings.ToTitle(n), nil
 }

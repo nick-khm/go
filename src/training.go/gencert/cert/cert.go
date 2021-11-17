@@ -76,7 +76,7 @@ func ValidateName(name string) (string, error) {
 }
 
 func parseDate(date string) (time.Time, error) {
-	t, err := time.Parse("2021-01-02", date)
+	t, err := time.Parse("2006-01-02", date)
 	if err != nil {
 		return t, err
 	}

@@ -28,19 +28,20 @@ type Saver interface {
 func New(course, name, date string) (*Cert, error) {
 	c, err := ValidateCourse(course)
 	n, err := ValidateName(name)
+	d, err := parseDate(date)
 	if err != nil {
 		return nil, err
 	}
-	d := date
 
 	cert := &Cert{
 		Course:             c,
 		Name:               n,
+		Date:               d,
 		LabelTitle:         fmt.Sprintf("%v Certificate - %v", c, n),
 		LabelCompletion:    "Certificate of Completion",
 		LabelPressented:    "This Certificate is Presented To",
 		LabelParticipation: fmt.Sprintf("For participation in the %v", c),
-		LabelDate:          fmt.Sprintf("Date: %v", d),
+		LabelDate:          fmt.Sprintf("Date: %v", d.Format("02/01/2021")),
 	}
 	return cert, nil
 }
@@ -72,4 +73,12 @@ func ValidateName(name string) (string, error) {
 		return "", err
 	}
 	return strings.ToTitle(n), nil
+}
+
+func parseDate(date string) (time.Time, error) {
+	t, err := time.Parse("2021-01-02", date)
+	if err != nil {
+		return t, err
+	}
+	return t, nil
 }
